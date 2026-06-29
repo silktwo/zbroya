@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const menuItems = [
   { label: "Про нас", href: "#about" },
@@ -45,6 +45,38 @@ const contactRows = [
 ];
 
 const logoLetters = ["Z", "B", "R", "O", "Y", "A"];
+
+function Reveal({ as: Tag = "div", children, delay = 0, className, style, ...props }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -32px 0px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <Tag
+      ref={ref}
+      className={`reveal${visible ? " is-visible" : ""}${className ? ` ${className}` : ""}`}
+      style={{ ...(delay ? { "--reveal-delay": `${delay}ms` } : {}), ...style }}
+      {...props}
+    >
+      {children}
+    </Tag>
+  );
+}
 
 function MenuButton({ open, onClick }) {
   return (
@@ -121,10 +153,10 @@ function Hero() {
 
       <div className="hero-product">
         <div>
-          <h1>Електронні компоненти для виробників Європи та Азії</h1>
-          <p>Міжнародна торгова компанія з Чехії.</p>
+          <h1 className="hero-headline">Електронні компоненти для виробників Європи та Азії</h1>
+          <p className="hero-sub">Міжнародна торгова компанія з Чехії.</p>
         </div>
-        <a className="cta-button" href="#footer">
+        <a className="cta-button hero-cta" href="#footer">
           Запит на постачання
         </a>
       </div>
@@ -136,57 +168,59 @@ function ContentSections() {
   return (
     <>
       <section className="content-section about-section" id="about">
-        <p className="section-label">Про нас</p>
-        <div className="section-copy">
+        <Reveal as="p" className="section-label">Про нас</Reveal>
+        <Reveal as="div" className="section-copy" delay={120}>
           <p>Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.</p>
           <p>Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.</p>
-        </div>
+        </Reveal>
       </section>
 
       <section className="content-section split-section" id="services">
         <div>
-          <p className="section-label">Що ми робимо</p>
-          <h2>Постачання, підбір, логістика для виробничих задач.</h2>
+          <Reveal as="p" className="section-label">Що ми робимо</Reveal>
+          <Reveal as="h2" delay={110}>Постачання, підбір, логістика для виробничих задач.</Reveal>
         </div>
         <div className="service-list">
           {capabilities.map((item, index) => (
-            <article className="service-item" key={item.title}>
+            <Reveal as="article" className="service-item" key={item.title} delay={index * 90}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className="content-section geography-section" id="geography">
         <div className="geography-copy">
-          <p className="section-label">Географія</p>
-          <p>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</p>
+          <Reveal as="p" className="section-label">Географія</Reveal>
+          <Reveal as="p" delay={110}>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</Reveal>
         </div>
-        <div className="map-graphic">
+        <Reveal as="div" className="map-graphic" delay={180}>
           <img src="/map.webp" alt="Темна мапа Європи та Азії з маршрутом постачання до Чехії" />
-        </div>
+        </Reveal>
       </section>
 
       <section className="content-section why-section" id="why">
-        <p className="section-label">Чому ми</p>
+        <Reveal as="p" className="section-label">Чому ми</Reveal>
         <div className="reason-grid">
           {reasons.map((item, index) => (
-            <p key={item}><span>{String(index + 1).padStart(2, "0")}</span>{item}</p>
+            <Reveal as="p" key={item} delay={index * 70}>
+              <span>{String(index + 1).padStart(2, "0")}</span>{item}
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className="content-section direction-section" id="direction">
-        <p className="section-label">Куди ми йдемо</p>
-        <div className="section-copy">
+        <Reveal as="p" className="section-label">Куди ми йдемо</Reveal>
+        <Reveal as="div" className="section-copy" delay={120}>
           <p>Наша мета: зробити постачання електронних компонентів для Європи передбачуваним і стійким до збоїв глобальних ланцюгів. Тому ми не зупиняємось на торгівлі.</p>
           <p>Найближча перспектива, власне виробництво на території Чехії: коротший шлях від компонента до замовника й контроль якості на власному боці.</p>
           <p>Окремий напрям розвитку, безпілотні системи UAV. Ми маємо досвід співпраці з українськими технологічними компаніями й розвиваємо цивільні застосування: моніторинг, інспекцію інфраструктури, логістику.</p>
-        </div>
+        </Reveal>
       </section>
     </>
   );
@@ -232,22 +266,22 @@ function Footer() {
     <footer className="footer-section" id="footer">
       <div className="footer-main">
         <div className="contact-list">
-          {contactRows.map(([label, value]) => (
-            <div className="contact-row" key={label}>
+          {contactRows.map(([label, value], index) => (
+            <Reveal as="div" className="contact-row" key={label} delay={index * 55}>
               <span>{label}</span>
               {label === "Email" ? <a href={`mailto:${value}`}>{value}</a> : <strong>{value}</strong>}
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
 
-      <div className="footer-contact">
+      <Reveal as="div" className="footer-contact" delay={contactRows.length * 55}>
         <div>
           <span>Контакти</span>
           <a href="mailto:info@zbroya-timepieces.com">info@zbroya-timepieces.com</a>
         </div>
         <span>© ZBROYA 2026</span>
-      </div>
+      </Reveal>
     </footer>
   );
 }
