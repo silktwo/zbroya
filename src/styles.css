@@ -191,7 +191,7 @@ button {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: center;
+  align-items: start;
   column-gap: var(--grid-gap);
   margin-top: clamp(10px, 2.4vh, 30px);
 }
@@ -241,6 +241,7 @@ button {
 .hero-cta {
   grid-column: 10 / 13;
   justify-self: end;
+  align-self: start;
 }
 
 .cta-button::before {
@@ -273,7 +274,7 @@ button {
 }
 
 .hero-about-row p {
-  grid-column: 5 / 9;
+  grid-column: 6 / 10;
   margin: 0;
   max-width: 640px;
 }
