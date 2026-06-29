@@ -13,14 +13,20 @@ const capabilities = [
   {
     title: "Постачання компонентів",
     text: "Широка номенклатура електронних комплектуючих під потреби виробництва.",
+    image: "/components.jpg",
+    alt: "Ізометрична схема виробничої лінії електронних компонентів",
   },
   {
     title: "Підбір і логістика",
     text: "Знаходимо потрібні позиції, будуємо маршрути, тримаємо терміни.",
+    image: "/logistics.jpg",
+    alt: "Глобальна логістична мережа на сферичній мапі",
   },
   {
     title: "Складні напрями",
     text: "Постачаємо туди, куди логістично складно, зокрема в Україну.",
+    image: "/hard ways.jpg",
+    alt: "Мапа України з маршрутами постачання",
   },
 ];
 const reasons = [
@@ -155,7 +161,11 @@ function Hero() {
 
       <div className="hero-product">
         <div>
-          <h1 className="hero-headline">Електронні компоненти для виробників Європи та Азії</h1>
+          <h1 className="hero-headline">
+            Електронні&nbsp;компоненти
+            <br />
+            для&nbsp;виробників&nbsp;Європи&nbsp;та&nbsp;Азії
+          </h1>
         </div>
         <p className="hero-sub">Міжнародна торгова компанія з Чехії</p>
         <a className="cta-button hero-cta" href="#footer">
@@ -177,40 +187,6 @@ function Hero() {
   );
 }
 
-function CircuitBoard() {
-  return (
-    <svg className="circuit-board" viewBox="0 0 360 214" aria-hidden="true">
-      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M55 68 116 42 310 68 252 171 58 145 55 68Z" />
-        <path d="M84 82 126 63 270 82 230 151 88 132 84 82Z" />
-        <path d="M154 76h78v58h-78z" />
-        <path d="M142 88h-18m18 12h-35m35 12h-24m35 12H98" />
-        <path d="M244 88h36m-36 12h22m-22 12h48m-48 12h30" />
-        <path d="M171 76V58m16 18V51m16 25V57m16 19V48" />
-        <path d="M171 134v31m16-31v22m16-22v38m16-38v26" />
-        <path d="M122 63 95 40h-34m194 42 33-29h42" />
-        <path d="M89 132 52 166H18m212-15 38 31h52" />
-        <path d="M63 105H18m276 7h44M128 166h-24m154-112h-22" />
-        <path d="M70 57h42l-4-19H76l-6 19ZM71 158h42l7-18H83l-12 18Z" />
-        <path d="M249 61h30l10-17h-29l-11 17ZM253 158h31l14-22h-31l-14 22Z" />
-        <path d="M101 100h28v15h-28zM256 96h33v17h-33z" />
-        <path d="M62 119h23m200 22h34M123 48h24m102 101h-32" />
-      </g>
-      <g fill="currentColor">
-        <circle cx="18" cy="105" r="3" />
-        <circle cx="18" cy="166" r="3" />
-        <circle cx="61" cy="40" r="3" />
-        <circle cx="330" cy="53" r="3" />
-        <circle cx="338" cy="112" r="3" />
-        <circle cx="320" cy="182" r="3" />
-        <circle cx="219" cy="48" r="3" />
-        <circle cx="203" cy="172" r="3" />
-        <circle cx="319" cy="141" r="3" />
-      </g>
-    </svg>
-  );
-}
-
 function ContentSections() {
   return (
     <>
@@ -220,37 +196,32 @@ function ContentSections() {
           <p>Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.</p>
           <p>Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.</p>
         </Reveal>
-        <Reveal as="div" className="about-visual" delay={180}>
-          <CircuitBoard />
-        </Reveal>
-      </section>
-
-      <section className="content-section split-section" id="services">
-        <div>
-          <Reveal as="p" className="section-label">Що ми робимо</Reveal>
-          <Reveal as="h2" delay={110}>Постачання, підбір, логістика для виробничих задач.</Reveal>
-        </div>
-        <div className="service-list">
-          {capabilities.map((item, index) => (
-            <Reveal as="article" className="service-item" key={item.title} delay={index * 90}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </section>
 
       <section className="content-section geography-section" id="geography">
+        <img className="geography-map" src="/map.webp" alt="Темна мапа Європи та Азії з маршрутом постачання до Чехії" />
         <div className="geography-copy">
-          <Reveal as="p" className="section-label">Географія</Reveal>
-          <Reveal as="p" delay={110}>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</Reveal>
+          <Reveal as="p" className="section-label">+ Географія</Reveal>
+          <Reveal as="h2" delay={110}>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</Reveal>
         </div>
-        <Reveal as="div" className="map-graphic" delay={180}>
-          <img src="/map.webp" alt="Темна мапа Європи та Азії з маршрутом постачання до Чехії" />
-        </Reveal>
+      </section>
+
+      <section className="content-section services-section" id="services">
+        <Reveal as="p" className="section-label services-label">+ Що ми робимо</Reveal>
+        <div className="service-list">
+          {capabilities.map((item, index) => (
+            <Reveal as="article" className="service-item" key={item.title} delay={index * 90}>
+              <div className="service-art">
+                <img src={item.image} alt={item.alt} />
+              </div>
+              <div className="service-heading">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+              </div>
+              <p>{item.text}</p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className="content-section why-section" id="why">
