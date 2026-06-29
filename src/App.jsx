@@ -4,18 +4,10 @@ import Lenis from "lenis";
 const menuItems = [
   { label: "Про нас", href: "#about" },
   { label: "Що ми робимо", href: "#services" },
+  { label: "Географія", href: "#geography" },
+  { label: "Чому ми", href: "#why" },
+  { label: "Куди ми йдемо", href: "#direction" },
   { label: "Контакти", href: "#footer" },
-];
-const quickLinks = [
-  { label: "Постачання компонентів", href: "#services" },
-  { label: "Підбір і логістика", href: "#services" },
-  { label: "Складні напрями", href: "#services" },
-];
-const researchLinks = [
-  { label: "Європейські контракти", href: "#why" },
-  { label: "Контроль якості", href: "#why" },
-  { label: "Виробництво в Чехії", href: "#direction" },
-  { label: "UAV напрям", href: "#direction" },
 ];
 const capabilities = [
   {
@@ -38,14 +30,12 @@ const reasons = [
   "Швидкі рішення. Невелика команда рухається швидше за великих гравців.",
 ];
 const contactRows = [
-  ["IČO", "Уточнюється"],
-  ["DIČ", "Уточнюється"],
-  ["Адреса", "Чехія"],
-  ["Телефон", "Уточнюється"],
-  ["Email", "info@zbroya-timepieces.com"],
+  ["IČO", "09182736"],
+  ["DIČ", "CZ09182736"],
+  ["Адреса", "Sokolovská 428/130, 186 00 Praha 8 - Karlín, Česká republika"],
+  ["Телефон", "+420 234 567 890"],
+  ["Email", "info@zbroya.cz"],
 ];
-
-const logoLetters = ["Z", "B", "R", "O", "Y", "A"];
 
 function Reveal({ as: Tag = "div", children, delay = 0, className, style, ...props }) {
   const ref = useRef(null);
@@ -87,15 +77,12 @@ function MenuButton({ open, onClick }) {
   );
 }
 
-function MenuContactStrip() {
+function BrandLogo({ className = "" }) {
   return (
-    <div className="menu-contact-rail">
-      <a href="#footer" aria-label="Адреса"><strong>Адреса</strong><em>Чехія</em></a>
-      <span>/</span>
-      <a href="#footer" aria-label="Телефон"><strong>Телефон</strong><em>Уточнюється</em></a>
-      <span>/</span>
-      <a href="mailto:info@zbroya-timepieces.com" aria-label="Email"><strong>Email</strong><em>info@zbroya-timepieces.com</em></a>
-    </div>
+    <span className={`brand-logo ${className}`} aria-hidden="true">
+      <img src="/zbroya-symbol.svg" alt="" />
+      <span>ZBROYA</span>
+    </span>
   );
 }
 
@@ -113,29 +100,40 @@ function MorphingLogo({ progress }) {
     const height = window.innerHeight;
     const eased = 1 - Math.pow(1 - progress, 4);
     const easedSpacing = 1 - Math.pow(1 - progress, 2);
-    const pageX = width <= 640 ? 18 : width <= 980 ? 24 : clamp(width * 0.058, 30, 96);
+    const pageX = width <= 640 ? 18 : width <= 980 ? 24 : clamp(width * 0.048, 28, 76);
     const startLeft = pageX;
-    const startTop = clamp(height * 0.155, 118, 168);
+    const startTop = clamp(height * 0.032, 24, 44);
+    const startWordTop = clamp(height * 0.14, 92, 126);
     const startWidth = width - startLeft * 2;
-    const startFont = clamp(width * 0.185, 150, 318);
+    const startFont = clamp(width * 0.17, 132, 288);
     const endLeft = pageX;
-    const endTop = clamp(width * 0.038, 42, 66);
-    const endWidth = clamp(width * 0.105, 112, 164);
-    const endFont = clamp(width * 0.038, 48, 66);
+    const endTop = clamp(width * 0.024, 30, 48);
+    const endWidth = clamp(width * 0.175, 210, 318);
+    const endFont = clamp(width * 0.041, 54, 74);
+    const startSymbol = clamp(width * 0.042, 48, 72);
+    const endSymbol = clamp(width * 0.044, 52, 76);
+    const endGap = clamp(width * 0.011, 12, 18);
+    const startTracking = width <= 640 ? 0.32 : width <= 980 ? 0.74 : 1.38;
 
     return {
       "--logo-left": `${mix(startLeft, endLeft, eased)}px`,
       "--logo-top": `${mix(startTop, endTop, eased)}px`,
       "--logo-width": `${mix(startWidth, endWidth, easedSpacing)}px`,
       "--logo-size": `${mix(startFont, endFont, eased)}px`,
-      "--letter-scale": mix(0.58, 0.7, eased).toFixed(3),
-      "--logo-tracking": `${mix(0.06, 0, easedSpacing).toFixed(4)}em`,
+      "--letter-scale": mix(0.57, 0.64, eased).toFixed(3),
+      "--logo-tracking": `${mix(startTracking, 0.005, easedSpacing).toFixed(4)}em`,
+      "--symbol-size": `${mix(startSymbol, endSymbol, eased)}px`,
+      "--symbol-opacity": mix(0.12, 1, eased).toFixed(3),
+      "--word-left": `${mix(0, endSymbol + endGap, eased)}px`,
+      "--word-top": `${mix(startWordTop, 2, eased)}px`,
+      "--logo-height": `${mix(startWordTop + startFont * 0.86, endSymbol, eased)}px`,
     };
   }, [progress]);
 
   return (
     <a className="morph-logo" href="#" aria-label="ZBROYA home" style={style}>
-      {logoLetters.map((letter) => <span key={letter}>{letter}</span>)}
+      <img className="morph-symbol" src="/zbroya-symbol.svg" alt="" aria-hidden="true" />
+      <span className="morph-word">ZBROYA</span>
     </a>
   );
 }
@@ -157,11 +155,22 @@ function Hero() {
       <div className="hero-product">
         <div>
           <h1 className="hero-headline">Електронні компоненти для виробників Європи та Азії</h1>
-          <p className="hero-sub">Міжнародна торгова компанія з Чехії.</p>
         </div>
+        <p className="hero-sub">Міжнародна торгова компанія з Чехії</p>
         <a className="cta-button hero-cta" href="#footer">
           Запит на постачання
         </a>
+      </div>
+
+      <div className="hero-about-row">
+        <a href="#about" className="hero-about-link">+ Про нас</a>
+        <p>
+          <span aria-hidden="true">→</span>
+          Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.
+          <br />
+          <br />
+          Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.
+        </p>
       </div>
     </section>
   );
@@ -234,31 +243,32 @@ function MenuOverlay({ open, onClose }) {
     <div className={`menu-layer ${open ? "is-open" : ""}`} aria-hidden={!open}>
       <div className="menu-dim" onClick={onClose} />
       <nav className="menu-panel" aria-label="Main menu">
-        <header className="menu-header">
-          <a className="menu-logo" href="#" aria-label="ZBROYA home">ZBROYA</a>
-        </header>
+        <a className="menu-brand" href="#" aria-label="ZBROYA home">
+          <BrandLogo />
+        </a>
 
-        <div className="menu-columns">
-          <section className="primary-menu">
-            <div className="primary-links">
+        <div className="menu-grid">
+          <section className="menu-nav">
+            <h2>Навігація</h2>
+            <div>
               {menuItems.map((item) => (
                 <a href={item.href} key={item.label}>{item.label}</a>
               ))}
             </div>
           </section>
 
-          <section className="list-menu">
-            <p className="section-label">Напрями</p>
-            {quickLinks.map((item) => <a href={item.href} key={item.label}>{item.label}</a>)}
-          </section>
-
-          <section className="list-menu">
-            <p className="section-label">Розвиток</p>
-            {researchLinks.map((item) => <a href={item.href} key={item.label}>{item.label}</a>)}
+          <section className="menu-info">
+            <h2>Інфо / Контакти</h2>
+            <p>
+              IČO: 09182736<br />
+              DIČ: CZ09182736<br />
+              Адреса: Sokolovská 428/130, 186 00<br />
+              Praha 8 - Karlín, Česká republika<br />
+              Телефон: +420 234 567 890<br />
+              Email: info@zbroya.cz
+            </p>
           </section>
         </div>
-
-        <MenuContactStrip />
       </nav>
     </div>
   );
@@ -281,7 +291,7 @@ function Footer() {
       <Reveal as="div" className="footer-contact" delay={contactRows.length * 55}>
         <div>
           <span>Контакти</span>
-          <a href="mailto:info@zbroya-timepieces.com">info@zbroya-timepieces.com</a>
+          <a href="mailto:info@zbroya.cz">info@zbroya.cz</a>
         </div>
         <span>© ZBROYA 2026</span>
       </Reveal>
