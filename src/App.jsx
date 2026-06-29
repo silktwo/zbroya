@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import Lenis from "lenis";
 
 const menuItems = [
   { label: "Про нас", href: "#about" },
@@ -289,6 +290,40 @@ function Footer() {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(() => new URLSearchParams(window.location.search).get("menu") === "1");
   const [logoProgress, setLogoProgress] = useState(0);
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+    lenisRef.current = lenis;
+
+    let frame;
+    function raf(time) {
+      lenis.raf(time);
+      frame = requestAnimationFrame(raf);
+    }
+    frame = requestAnimationFrame(raf);
+
+    const onClick = (e) => {
+      const anchor = e.target.closest("a[href^='#']");
+      if (!anchor) return;
+      const id = anchor.getAttribute("href").slice(1);
+      const target = document.getElementById(id) || (id === "" ? document.documentElement : null);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -96, duration: 1.4 });
+    };
+    document.addEventListener("click", onClick);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("click", onClick);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const target = new URLSearchParams(window.location.search).get("view");
