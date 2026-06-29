@@ -110,29 +110,24 @@ function MorphingLogo({ progress }) {
     const endTop = clamp(width * 0.024, 30, 48);
     const endSymbol = clamp(width * 0.044, 52, 70);
     const endGap = clamp(width * 0.012, 12, 18);
-    const endWordWidth = endSymbol * 2.49;
+    const endWordWidth = endSymbol * 2.85;
     const endWidth = endSymbol + endGap + endWordWidth;
     const endFont = clamp(width * 0.041, 54, 74);
     const startSymbol = clamp(width * 0.042, 48, 72);
     const startTracking = width <= 640 ? 0.32 : width <= 980 ? 0.74 : 1.38;
-    const finalWordOpacity = clamp((progress - 0.74) / 0.26, 0, 1);
-    const textOpacity = 1 - clamp((progress - 0.58) / 0.3, 0, 1);
 
     return {
       "--logo-left": `${mix(startLeft, endLeft, eased)}px`,
       "--logo-top": `${mix(startTop, endTop, eased)}px`,
       "--logo-width": `${mix(startWidth, endWidth, easedSpacing)}px`,
       "--logo-size": `${mix(startFont, endFont, eased)}px`,
-      "--letter-scale": mix(0.57, 0.64, eased).toFixed(3),
-      "--logo-tracking": `${mix(startTracking, 0.005, easedSpacing).toFixed(4)}em`,
+      "--letter-scale": mix(0.57, 1.06, eased).toFixed(3),
+      "--logo-tracking": `${mix(startTracking, -0.055, easedSpacing).toFixed(4)}em`,
       "--symbol-size": `${mix(startSymbol, endSymbol, eased)}px`,
       "--symbol-opacity": mix(0.12, 1, eased).toFixed(3),
       "--word-left": `${mix(0, endSymbol + endGap, eased)}px`,
       "--word-top": `${mix(startWordTop, 2, eased)}px`,
       "--logo-height": `${mix(startWordTop + startFont * 0.86, endSymbol, eased)}px`,
-      "--final-word-width": `${endWordWidth}px`,
-      "--final-word-opacity": finalWordOpacity.toFixed(3),
-      "--morph-text-opacity": textOpacity.toFixed(3),
     };
   }, [progress]);
 
@@ -140,7 +135,6 @@ function MorphingLogo({ progress }) {
     <a className="morph-logo" href="#" aria-label="ZBROYA home" style={style}>
       <img className="morph-symbol" src="/zbroya-symbol.svg" alt="" aria-hidden="true" />
       <span className="morph-word">ZBROYA</span>
-      <img className="morph-wordmark" src="/zbroya-logo.svg" alt="" aria-hidden="true" />
     </a>
   );
 }
