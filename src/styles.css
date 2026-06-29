@@ -133,6 +133,7 @@ button {
 .morph-logo span {
   display: block;
   scale: var(--letter-scale) 1;
+  letter-spacing: var(--logo-tracking, 0em);
   transform-origin: center top;
 }
 

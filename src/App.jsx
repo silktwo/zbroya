@@ -112,6 +112,7 @@ function MorphingLogo({ progress }) {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const eased = 1 - Math.pow(1 - progress, 4);
+    const easedSpacing = 1 - Math.pow(1 - progress, 2);
     const pageX = width <= 640 ? 18 : width <= 980 ? 24 : clamp(width * 0.058, 30, 96);
     const startLeft = pageX;
     const startTop = clamp(height * 0.155, 118, 168);
@@ -125,9 +126,10 @@ function MorphingLogo({ progress }) {
     return {
       "--logo-left": `${mix(startLeft, endLeft, eased)}px`,
       "--logo-top": `${mix(startTop, endTop, eased)}px`,
-      "--logo-width": `${mix(startWidth, endWidth, eased)}px`,
+      "--logo-width": `${mix(startWidth, endWidth, easedSpacing)}px`,
       "--logo-size": `${mix(startFont, endFont, eased)}px`,
       "--letter-scale": mix(0.58, 0.7, eased).toFixed(3),
+      "--logo-tracking": `${mix(0.06, 0, easedSpacing).toFixed(4)}em`,
     };
   }, [progress]);
 
@@ -294,7 +296,7 @@ export default function App() {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 2.4,
+      duration: 3.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     lenisRef.current = lenis;
