@@ -704,6 +704,20 @@ button {
   color: var(--ink);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .icon-button:not(.is-open):hover .menu-icon {
+    width: 22px;
+  }
+
+  .icon-button:not(.is-open):hover .menu-icon::before {
+    width: 17px;
+  }
+
+  .icon-button.is-open:hover .menu-icon {
+    transform: rotate(135deg);
+  }
+}
+
 /* ─── Reduced motion ──────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
