@@ -294,7 +294,7 @@ export default function App() {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 2.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     lenisRef.current = lenis;
@@ -313,7 +313,7 @@ export default function App() {
       const target = document.getElementById(id) || (id === "" ? document.documentElement : null);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -96, duration: 1.4 });
+      lenis.scrollTo(target, { offset: -96, duration: 2.4 });
     };
     document.addEventListener("click", onClick);
 
