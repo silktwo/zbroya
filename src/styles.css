@@ -18,8 +18,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 132px;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -134,6 +133,7 @@ button {
 .morph-logo span {
   display: block;
   scale: var(--letter-scale) 1;
+  letter-spacing: var(--logo-tracking, 0em);
   transform-origin: center top;
 }
 
@@ -633,6 +633,108 @@ button {
     justify-self: start;
   }
 }
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(52px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-headline {
+  animation: reveal-in 820ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+}
+
+.hero-sub {
+  animation: reveal-in 820ms cubic-bezier(0.16, 1, 0.3, 1) 320ms both;
+}
+
+.hero-cta {
+  animation: reveal-in 820ms cubic-bezier(0.16, 1, 0.3, 1) 490ms both;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(52px);
+  transition:
+    opacity 760ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Micro-interactions ──────────────────────────────────────────────────── */
+
+.cta-button {
+  transition:
+    opacity 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cta-button:hover {
+  opacity: 0.78;
+}
+
+.cta-button:active {
+  transform: scale(0.965);
+}
+
+.primary-links a {
+  transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.primary-links a:hover {
+  opacity: 0.48;
+}
+
+.list-menu a {
+  transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.list-menu a:hover {
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-button:not(.is-open):hover .menu-icon {
+    width: 22px;
+  }
+
+  .icon-button:not(.is-open):hover .menu-icon::before {
+    width: 17px;
+  }
+
+  .icon-button.is-open:hover .menu-icon {
+    transform: rotate(135deg);
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline,
+  .hero-sub,
+  .hero-cta {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ─── Breakpoints ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
   :root {
