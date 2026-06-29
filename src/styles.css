@@ -427,18 +427,46 @@ button {
   scroll-margin-top: 132px;
   padding: clamp(76px, 9vw, 138px) var(--page-x);
   background: var(--panel);
-  border-top: 1px solid var(--line);
 }
 
-.about-section,
 .direction-section {
   display: grid;
   grid-template-columns: 0.7fr minmax(0, 1.3fr);
   gap: clamp(46px, 8vw, 136px);
 }
 
+.about-section {
+  min-height: clamp(430px, 36vw, 520px);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  align-items: start;
+  padding-top: clamp(154px, 15vw, 196px);
+  padding-bottom: clamp(70px, 8vw, 110px);
+}
+
+.about-label {
+  grid-column: 1 / 4;
+  margin-top: 0;
+  text-transform: none;
+}
+
 .section-copy {
   max-width: 980px;
+}
+
+.about-copy {
+  grid-column: 6 / 10;
+  max-width: 640px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.about-copy::before {
+  content: "→";
+  float: left;
+  margin-left: -24px;
+  color: var(--muted);
 }
 
 .section-copy p,
@@ -454,6 +482,32 @@ button {
 
 .section-copy p + p {
   margin-top: 0.95em;
+}
+
+.about-copy p {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.18;
+}
+
+.about-copy p + p {
+  margin-top: 1.35em;
+}
+
+.about-visual {
+  grid-column: 10 / 13;
+  justify-self: end;
+  width: min(100%, 338px);
+  margin-top: 4px;
+  color: oklch(0.56 0.006 250 / 0.54);
+}
+
+.circuit-board {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  stroke-width: 1.35;
 }
 
 .split-section {
@@ -679,6 +733,29 @@ button {
 
   .hero-about-link {
     grid-column: auto;
+  }
+
+  .about-section {
+    min-height: auto;
+    row-gap: 28px;
+  }
+
+  .about-label,
+  .about-copy,
+  .about-visual {
+    grid-column: auto;
+  }
+
+  .about-copy::before {
+    float: none;
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .about-visual {
+    justify-self: start;
+    width: min(100%, 340px);
   }
 
   .content-section {

@@ -177,14 +177,51 @@ function Hero() {
   );
 }
 
+function CircuitBoard() {
+  return (
+    <svg className="circuit-board" viewBox="0 0 360 214" aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M55 68 116 42 310 68 252 171 58 145 55 68Z" />
+        <path d="M84 82 126 63 270 82 230 151 88 132 84 82Z" />
+        <path d="M154 76h78v58h-78z" />
+        <path d="M142 88h-18m18 12h-35m35 12h-24m35 12H98" />
+        <path d="M244 88h36m-36 12h22m-22 12h48m-48 12h30" />
+        <path d="M171 76V58m16 18V51m16 25V57m16 19V48" />
+        <path d="M171 134v31m16-31v22m16-22v38m16-38v26" />
+        <path d="M122 63 95 40h-34m194 42 33-29h42" />
+        <path d="M89 132 52 166H18m212-15 38 31h52" />
+        <path d="M63 105H18m276 7h44M128 166h-24m154-112h-22" />
+        <path d="M70 57h42l-4-19H76l-6 19ZM71 158h42l7-18H83l-12 18Z" />
+        <path d="M249 61h30l10-17h-29l-11 17ZM253 158h31l14-22h-31l-14 22Z" />
+        <path d="M101 100h28v15h-28zM256 96h33v17h-33z" />
+        <path d="M62 119h23m200 22h34M123 48h24m102 101h-32" />
+      </g>
+      <g fill="currentColor">
+        <circle cx="18" cy="105" r="3" />
+        <circle cx="18" cy="166" r="3" />
+        <circle cx="61" cy="40" r="3" />
+        <circle cx="330" cy="53" r="3" />
+        <circle cx="338" cy="112" r="3" />
+        <circle cx="320" cy="182" r="3" />
+        <circle cx="219" cy="48" r="3" />
+        <circle cx="203" cy="172" r="3" />
+        <circle cx="319" cy="141" r="3" />
+      </g>
+    </svg>
+  );
+}
+
 function ContentSections() {
   return (
     <>
       <section className="content-section about-section" id="about">
-        <Reveal as="p" className="section-label">Про нас</Reveal>
-        <Reveal as="div" className="section-copy" delay={120}>
+        <Reveal as="p" className="section-label about-label">+ Про нас</Reveal>
+        <Reveal as="div" className="section-copy about-copy" delay={120}>
           <p>Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.</p>
           <p>Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.</p>
+        </Reveal>
+        <Reveal as="div" className="about-visual" delay={180}>
+          <CircuitBoard />
         </Reveal>
       </section>
 
