@@ -196,14 +196,13 @@ function Hero() {
       <div className="hero-product">
         <div>
           <h1 className="hero-headline">
-            Електронні&nbsp;компоненти
-            <br />
-            для&nbsp;виробників&nbsp;Європи&nbsp;та&nbsp;Азії
+            <span className="hero-line">Електронні&nbsp;компоненти</span>
+            <span className="hero-line">для&nbsp;виробників&nbsp;Європи&nbsp;та&nbsp;Азії</span>
           </h1>
         </div>
         <p className="hero-sub">Міжнародна торгова компанія з Чехії</p>
         <a className="cta-button hero-cta" href="#footer">
-          Запит на постачання
+          <span>Запит на постачання</span>
         </a>
       </div>
     </section>
