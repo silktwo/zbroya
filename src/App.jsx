@@ -13,27 +13,47 @@ const capabilities = [
   {
     title: "Постачання компонентів",
     text: "Широка номенклатура електронних комплектуючих під потреби виробництва.",
-    image: "/components.jpg",
+    image: "/components.webp?v=20260630c",
     alt: "Ізометрична схема виробничої лінії електронних компонентів",
   },
   {
     title: "Підбір і логістика",
     text: "Знаходимо потрібні позиції, будуємо маршрути, тримаємо терміни.",
-    image: "/logistics.jpg",
+    image: "/logistics.webp?v=20260630c",
     alt: "Глобальна логістична мережа на сферичній мапі",
   },
   {
     title: "Складні напрями",
     text: "Постачаємо туди, куди логістично складно, зокрема в Україну.",
-    image: "/hard ways.jpg",
+    image: "/hard%20ways.webp?v=20260630c",
     alt: "Мапа України з маршрутами постачання",
   },
 ];
 const reasons = [
-  "Реальні контракти. Працюємо з європейськими компаніями, а не тільки виходимо на ринок.",
-  "Відповідаємо за терміни і якість на кожному етапі постачання.",
-  "Прозорість. Зрозумілі умови, відповідність європейським нормам.",
-  "Швидкі рішення. Невелика команда рухається швидше за великих гравців.",
+  {
+    title: "Реальні контракти",
+    text: "Працюємо з європейськими компаніями, а не тільки виходимо на ринок.",
+    image: "/real%20contacts.webp",
+    alt: "Рукостискання на фоні прапора Європейського Союзу",
+  },
+  {
+    title: "Відповідаємо за терміни і якість",
+    text: "На кожному етапі постачання.",
+    image: "/quality.webp",
+    alt: "Електронна плата у синьо-чорному растрі",
+  },
+  {
+    title: "Прозорість",
+    text: "Зрозумілі умови, відповідність європейським нормам.",
+    image: "/transparency.webp",
+    alt: "Документи у синьо-чорному растрі",
+  },
+  {
+    title: "Швидкі рішення",
+    text: "Невелика команда рухається швидше за великих гравців.",
+    image: "/small%20team.webp",
+    alt: "Силуети невеликої команди",
+  },
 ];
 const contactRows = [
   ["IČO", "09182736"],
@@ -42,6 +62,7 @@ const contactRows = [
   ["Телефон", "+420 234 567 890"],
   ["Email", "info@zbroya.cz"],
 ];
+const gridDotNames = ["tl", "tm", "tr", "te", "bl", "bm", "br", "be"];
 
 function Reveal({ as: Tag = "div", children, delay = 0, className, style, ...props }) {
   const ref = useRef(null);
@@ -92,6 +113,16 @@ function BrandLogo({ className = "" }) {
   );
 }
 
+function SectionDots({ className = "" }) {
+  return (
+    <div className={`section-dots${className ? ` ${className}` : ""}`} aria-hidden="true">
+      {gridDotNames.map((name) => (
+        <span className={`dot-${name}`} key={name} />
+      ))}
+    </div>
+  );
+}
+
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -108,17 +139,18 @@ function MorphingLogo({ progress }) {
     const easedSpacing = 1 - Math.pow(1 - progress, 2);
     const pageX = width <= 640 ? 18 : width <= 980 ? 24 : clamp(width * 0.048, 28, 76);
     const startLeft = pageX;
-    const startTop = clamp(height * 0.032, 24, 44);
-    const startWordTop = clamp(height * 0.14, 92, 126);
     const startWidth = width - startLeft * 2;
     const startFont = clamp(width * 0.17, 132, 288);
+    const startTop = 0;
+    const startSymbolTop = clamp(height * 0.06, 28, 68);
+    const startWordTop = clamp(height * 0.18, 90, 220);
     const endLeft = pageX;
     const endTop = clamp(width * 0.024, 30, 48);
     const endSymbol = clamp(width * 0.044, 52, 70);
+    const endFont = endSymbol / 0.82;
     const endGap = clamp(width * 0.012, 12, 18);
     const endWordWidth = endSymbol * 2.85;
     const endWidth = endSymbol + endGap + endWordWidth;
-    const endFont = clamp(width * 0.041, 54, 74);
     const startSymbol = clamp(width * 0.042, 48, 72);
     const startTracking = width <= 640 ? 0.32 : width <= 980 ? 0.74 : 1.38;
 
@@ -131,6 +163,7 @@ function MorphingLogo({ progress }) {
       "--logo-tracking": `${mix(startTracking, -0.032, easedSpacing).toFixed(4)}em`,
       "--symbol-size": `${mix(startSymbol, endSymbol, eased)}px`,
       "--symbol-opacity": mix(0.12, 1, eased).toFixed(3),
+      "--symbol-top": `${mix(startSymbolTop, 0, eased)}px`,
       "--word-left": `${mix(0, endSymbol + endGap, eased)}px`,
       "--word-top": `${mix(startWordTop, 2, eased)}px`,
       "--logo-height": `${mix(startWordTop + startFont * 0.86, endSymbol * 1.2, eased)}px`,
@@ -157,6 +190,7 @@ function SiteHeader({ menuOpen, onMenuToggle }) {
 function Hero() {
   return (
     <section className="hero-section">
+      <SectionDots className="hero-dots" />
       <div className="hero-wordmark-ghost" aria-hidden="true" />
 
       <div className="hero-product">
@@ -172,41 +206,29 @@ function Hero() {
           Запит на постачання
         </a>
       </div>
-
-      <div className="hero-about-row">
-        <a href="#about" className="hero-about-link">+ Про нас</a>
-        <p>
-          <span aria-hidden="true">→</span>
-          Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.
-          <br />
-          <br />
-          Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.
-        </p>
-      </div>
     </section>
   );
 }
 
 function ContentSections() {
+  const [directionOpen, setDirectionOpen] = useState(false);
+
   return (
     <>
       <section className="content-section about-section" id="about">
+        <SectionDots />
         <Reveal as="p" className="section-label about-label">+ Про нас</Reveal>
         <Reveal as="div" className="section-copy about-copy" delay={120}>
           <p>Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.</p>
           <p>Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.</p>
         </Reveal>
-      </section>
-
-      <section className="content-section geography-section" id="geography">
-        <img className="geography-map" src="/map.webp" alt="Темна мапа Європи та Азії з маршрутом постачання до Чехії" />
-        <div className="geography-copy">
-          <Reveal as="p" className="section-label">+ Географія</Reveal>
-          <Reveal as="h2" delay={110}>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</Reveal>
-        </div>
+        <Reveal as="div" className="about-image">
+          <img src="/about%20us.webp?v=20260630c" alt="Про нас" />
+        </Reveal>
       </section>
 
       <section className="content-section services-section" id="services">
+        <SectionDots />
         <Reveal as="p" className="section-label services-label">+ Що ми робимо</Reveal>
         <div className="service-list">
           {capabilities.map((item, index) => (
@@ -224,23 +246,54 @@ function ContentSections() {
         </div>
       </section>
 
+      <section className="content-section geography-section" id="geography">
+        <SectionDots className="geography-dots" />
+        <img className="geography-map" src="/map.webp" alt="Темна мапа Європи та Азії з маршрутом постачання до Чехії" />
+        <div className="geography-copy">
+          <Reveal as="p" className="section-label">+ Географія</Reveal>
+          <Reveal as="h2" delay={110}>Працюємо по обидва боки ланцюга постачання: від виробників в Азії до замовників у Європі, включно з Україною.</Reveal>
+        </div>
+      </section>
+
       <section className="content-section why-section" id="why">
-        <Reveal as="p" className="section-label">Чому ми</Reveal>
+        <SectionDots />
         <div className="reason-grid">
           {reasons.map((item, index) => (
-            <Reveal as="p" key={item} delay={index * 70}>
-              <span>{String(index + 1).padStart(2, "0")}</span>{item}
+            <Reveal as="article" className="reason-card" key={item.title} delay={index * 70}>
+              <img src={item.image} alt={item.alt} />
+              <div className="reason-heading">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+              </div>
+              <p>{item.text}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="content-section direction-section" id="direction">
-        <Reveal as="p" className="section-label">Куди ми йдемо</Reveal>
-        <Reveal as="div" className="section-copy" delay={120}>
-          <p>Наша мета: зробити постачання електронних компонентів для Європи передбачуваним і стійким до збоїв глобальних ланцюгів. Тому ми не зупиняємось на торгівлі.</p>
-          <p>Найближча перспектива, власне виробництво на території Чехії: коротший шлях від компонента до замовника й контроль якості на власному боці.</p>
-          <p>Окремий напрям розвитку, безпілотні системи UAV. Ми маємо досвід співпраці з українськими технологічними компаніями й розвиваємо цивільні застосування: моніторинг, інспекцію інфраструктури, логістику.</p>
+      <section className={`content-section direction-section${directionOpen ? " is-open" : ""}`} id="direction">
+        <SectionDots />
+        <Reveal as="p" className="section-label direction-label">+ Куди ми йдемо</Reveal>
+        <Reveal as="div" className="direction-copy" delay={120}>
+          <h2>Наша мета:</h2>
+          <p className="direction-lead">Зробити постачання електронних компонентів для Європи передбачуваним і стійким до збоїв глобальних ланцюгів. Тому ми не зупиняємось на торгівлі.</p>
+          <div className="direction-more" id="direction-more" aria-hidden={!directionOpen}>
+            <div className="direction-more-inner">
+              <p>Найближча перспектива, власне виробництво на території Чехії: коротший шлях від компонента до замовника й контроль якості на власному боці.</p>
+              <p>Окремий напрям розвитку, безпілотні системи UAV. Ми маємо досвід співпраці з українськими технологічними компаніями й розвиваємо цивільні застосування: моніторинг, інспекцію інфраструктури, логістику.</p>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal
+          as="button"
+          className="direction-toggle"
+          type="button"
+          aria-expanded={directionOpen}
+          aria-controls="direction-more"
+          onClick={() => setDirectionOpen((open) => !open)}
+        >
+          <span aria-hidden="true">{directionOpen ? "−" : "+"}</span>
+          {directionOpen ? "Згорнути" : "Дізнатись більше"}
         </Reveal>
       </section>
     </>
@@ -260,7 +313,7 @@ function MenuOverlay({ open, onClose }) {
           <section className="menu-nav">
             <h2>Навігація</h2>
             <div>
-              {menuItems.map((item) => (
+              {menuItems.filter((item) => item.href !== "#footer").map((item) => (
                 <a href={item.href} key={item.label}>{item.label}</a>
               ))}
             </div>
@@ -268,14 +321,14 @@ function MenuOverlay({ open, onClose }) {
 
           <section className="menu-info">
             <h2>Інфо / Контакти</h2>
-            <p>
-              IČO: 09182736<br />
-              DIČ: CZ09182736<br />
-              Адреса: Sokolovská 428/130, 186 00<br />
-              Praha 8 - Karlín, Česká republika<br />
-              Телефон: +420 234 567 890<br />
-              Email: info@zbroya.cz
-            </p>
+            <div className="menu-contact-list">
+              {contactRows.map(([label, value]) => (
+                <p key={label}>
+                  <span>{label}:</span>
+                  {label === "Email" ? <a href={`mailto:${value}`}>{value}</a> : <strong>{value}</strong>}
+                </p>
+              ))}
+            </div>
           </section>
         </div>
       </nav>
@@ -286,24 +339,16 @@ function MenuOverlay({ open, onClose }) {
 function Footer() {
   return (
     <footer className="footer-section" id="footer">
-      <div className="footer-main">
-        <div className="contact-list">
-          {contactRows.map(([label, value], index) => (
-            <Reveal as="div" className="contact-row" key={label} delay={index * 55}>
-              <span>{label}</span>
-              {label === "Email" ? <a href={`mailto:${value}`}>{value}</a> : <strong>{value}</strong>}
-            </Reveal>
-          ))}
-        </div>
+      <h2 className="footer-title">Інфо / Контакти</h2>
+      <div className="footer-details">
+        {contactRows.map(([label, value]) => (
+          <p key={label}>
+            <span>{label}:</span>
+            {label === "Email" ? <a href={`mailto:${value}`}>{value}</a> : <strong>{value}</strong>}
+          </p>
+        ))}
       </div>
-
-      <Reveal as="div" className="footer-contact" delay={contactRows.length * 55}>
-        <div>
-          <span>Контакти</span>
-          <a href="mailto:info@zbroya.cz">info@zbroya.cz</a>
-        </div>
-        <span>© ZBROYA 2026</span>
-      </Reveal>
+      <p className="footer-copy">© ZBROYA 2026</p>
     </footer>
   );
 }
@@ -311,11 +356,12 @@ function Footer() {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(() => new URLSearchParams(window.location.search).get("menu") === "1");
   const [logoProgress, setLogoProgress] = useState(0);
+  const [nightHeader, setNightHeader] = useState(false);
   const lenisRef = useRef(null);
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.7,
+      duration: 3.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     lenisRef.current = lenis;
@@ -334,7 +380,7 @@ export default function App() {
       const target = document.getElementById(id) || (id === "" ? document.documentElement : null);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -96, duration: 1.35 });
+      lenis.scrollTo(target, { offset: -96, duration: 2.0 });
     };
     document.addEventListener("click", onClick);
 
@@ -367,7 +413,12 @@ export default function App() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const distance = Math.min(window.innerHeight * 0.56, 560);
+        const whySection = document.getElementById("why");
+        const footerSection = document.getElementById("footer");
+        const nightStart = whySection ? whySection.offsetTop - 132 : Infinity;
+        const nightEnd = footerSection ? footerSection.offsetTop - 132 : Infinity;
         setLogoProgress(clamp(window.scrollY / distance, 0, 1));
+        setNightHeader(window.scrollY >= nightStart && window.scrollY < nightEnd);
       });
     };
 
@@ -398,7 +449,7 @@ export default function App() {
   }, [menuOpen]);
 
   return (
-    <main className="page">
+    <main className={`page${nightHeader ? " is-night-header" : ""}`}>
       <MorphingLogo progress={logoProgress} />
       <SiteHeader menuOpen={menuOpen} onMenuToggle={() => setMenuOpen((open) => !open)} />
       <Hero />
