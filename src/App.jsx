@@ -13,19 +13,19 @@ const capabilities = [
   {
     title: "Постачання компонентів",
     text: "Широка номенклатура електронних комплектуючих під потреби виробництва.",
-    image: "/components.webp?v=20260630c",
+    image: "/components.webp?v=20260630d",
     alt: "Ізометрична схема виробничої лінії електронних компонентів",
   },
   {
     title: "Підбір і логістика",
     text: "Знаходимо потрібні позиції, будуємо маршрути, тримаємо терміни.",
-    image: "/logistics.webp?v=20260630c",
+    image: "/logistics.webp?v=20260630d",
     alt: "Глобальна логістична мережа на сферичній мапі",
   },
   {
     title: "Складні напрями",
     text: "Постачаємо туди, куди логістично складно, зокрема в Україну.",
-    image: "/hard%20ways.webp?v=20260630c",
+    image: "/hard%20ways.webp?v=20260630d",
     alt: "Мапа України з маршрутами постачання",
   },
 ];
@@ -222,8 +222,12 @@ function ContentSections() {
           <p>Зброя, торгова компанія з Чехії. Постачаємо електронні компоненти виробникам у Європі та Азії.</p>
           <p>Працюємо близько року. За цей час уклали контракти з європейськими партнерами й розширили номенклатуру та географію.</p>
         </Reveal>
-        <Reveal as="div" className="about-image">
-          <img src="/about%20us.webp?v=20260630c" alt="Про нас" />
+        <Reveal
+          as="div"
+          className="about-image blend-image"
+          style={{ "--art-image": "url('/about%20us.webp?v=20260630d')" }}
+        >
+          <img src="/about%20us.webp?v=20260630d" alt="Про нас" />
         </Reveal>
       </section>
 
@@ -233,7 +237,7 @@ function ContentSections() {
         <div className="service-list">
           {capabilities.map((item, index) => (
             <Reveal as="article" className="service-item" key={item.title} delay={index * 90}>
-              <div className="service-art">
+              <div className="service-art blend-image" style={{ "--art-image": `url('${item.image}')` }}>
                 <img src={item.image} alt={item.alt} />
               </div>
               <div className="service-heading">

@@ -617,6 +617,12 @@ button {
   height: 210px;
   margin-top: 4px;
   overflow: hidden;
+  background-color: var(--panel);
+  background-image: var(--art-image);
+  background-repeat: no-repeat;
+  background-position: center -72px;
+  background-size: 100% auto;
+  background-blend-mode: darken;
 }
 
 .about-image img {
@@ -624,7 +630,7 @@ button {
   height: auto;
   display: block;
   background: transparent;
-  opacity: 0.64;
+  opacity: 0;
   transform: translateY(-72px);
 }
 
@@ -665,6 +671,12 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  background-color: var(--panel);
+  background-image: var(--art-image);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: min(100%, 210px) auto;
+  background-blend-mode: darken;
 }
 
 .service-art img {
@@ -673,6 +685,7 @@ button {
   height: auto;
   object-fit: contain;
   background: transparent;
+  opacity: 0;
 }
 
 .service-heading {
@@ -908,8 +921,7 @@ button {
   cursor: pointer;
 }
 
-.about-image img,
-.service-art img,
+.blend-image,
 .geography-map,
 .reason-card img {
   mix-blend-mode: darken;
